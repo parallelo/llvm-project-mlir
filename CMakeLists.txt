@@ -21,4 +21,5 @@ else()
   set(MLIR_ROCM_RUNNER_ENABLED 1 CACHE BOOL "")
 endif()
 
-add_subdirectory(llvm)
+add_subdirectory(external)
+add_subdirectory(mlir)
