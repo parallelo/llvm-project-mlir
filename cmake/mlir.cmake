@@ -28,3 +28,5 @@ list(APPEND LLVM_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/external/llvm-project/llvm/include
   ${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/include
 )
+
+list(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-rpath -Wl,${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/lib")
