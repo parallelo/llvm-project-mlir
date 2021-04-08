@@ -1,5 +1,3 @@
-add_subdirectory(Transforms)
-
 set(LLVM_TARGET_DEFINITIONS LLVMOps.td)
 mlir_tablegen(LLVMOps.h.inc -gen-op-decls)
 mlir_tablegen(LLVMOps.cpp.inc -gen-op-defs)

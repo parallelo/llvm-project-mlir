@@ -1,5 +1,3 @@
-add_subdirectory(SPIRV)
-
 add_mlir_translation_library(MLIRTargetLLVMIRModuleTranslation
   LLVMIR/DebugTranslation.cpp
   LLVMIR/ModuleTranslation.cpp
