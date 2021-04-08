@@ -10,4 +10,4 @@ include(cmake/mlir.cmake)
 add_subdirectory(mlir-standalone-example)
 
 # Set up the build for the MLIR MIOpen dialect
-#add_subdirectory(mlir)
+add_subdirectory(mlir)
