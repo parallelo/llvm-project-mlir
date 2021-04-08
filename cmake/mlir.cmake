@@ -17,9 +17,15 @@ set(LLVM_PROJ_SRC "${CMAKE_SOURCE_DIR}/external/llvm-project")
 
 add_subdirectory("${LLVM_PROJ_SRC}/llvm" "external/llvm-project/llvm" EXCLUDE_FROM_ALL)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}/lib/cmake/mlir")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/lib/cmake/llvm/")
+# Cmake module paths
+list(APPEND CMAKE_MODULE_PATH
+  "${CMAKE_CURRENT_BINARY_DIR}/lib/cmake/mlir"
+)
+list(APPEND CMAKE_MODULE_PATH
+  "${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/lib/cmake/llvm/"
+)
 
+# Include dirs for MLIR and LLVM
 list(APPEND MLIR_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/external/llvm-project/mlir/include
   ${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/tools/mlir/include
@@ -29,4 +35,7 @@ list(APPEND LLVM_INCLUDE_DIRS
   ${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/include
 )
 
-list(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-rpath -Wl,${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/lib")
+# Linker flags
+list(APPEND CMAKE_EXE_LINKER_FLAGS
+  " -Wl,-rpath -Wl,${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/lib"
+)
