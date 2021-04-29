@@ -1,5 +1,24 @@
 message(STATUS "Adding LLVM git-submodule src dependency")
 
+# Build the ROCm conversions and run according tests if the AMDGPU backend
+# is available
+if ("AMDGPU" IN_LIST LLVM_TARGETS_TO_BUILD)
+  set(MLIR_ROCM_CONVERSIONS_ENABLED 1)
+else()
+  set(MLIR_ROCM_CONVERSIONS_ENABLED 0)
+endif()
+add_definitions(-DMLIR_ROCM_CONVERSIONS_ENABLED=${MLIR_ROCM_CONVERSIONS_ENABLED})
+
+# MIOpen dialect.
+set(MLIR_MIOPEN_DRIVER_ENABLED 1 CACHE BOOL "Enable build MIOpen driver")
+set(MLIR_MIOPEN_DRIVER_E2E_TEST_ENABLED 1 CACHE BOOL "Enable build E2E tests for MIOpen driver")
+set(MLIR_MIOPEN_DRIVER_MISC_E2E_TEST_ENABLED 1 CACHE BOOL "Enable build miscellaneous E2E tests for MIOpen driver")
+set(MLIR_MIOPEN_DRIVER_PR_E2E_TEST_ENABLED 1 CACHE BOOL "Enable build PR-triggered E2E tests for MIOpen driver")
+set(MLIR_MIOPEN_DRIVER_RANDOM_DATA_SEED "none" CACHE STRING "Enable E2E tests using random data")
+set(MLIR_MIOPEN_DRIVER_XDLOPS_TEST_ENABLED 1 CACHE BOOL "Enable build E2E tests for XDLops")
+set(MLIR_MIOPEN_SQLITE_ENABLED 1 CACHE BOOL "Enable SQLite integration")
+
+
 set(LLVM_ENABLE_PROJECTS "mlir;lld" CACHE INTERNAL "")
 set(LLVM_BUILD_EXAMPLES ON CACHE INTERNAL "")
 set(LLVM_TARGETS_TO_BUILD "X86;AMDGPU" CACHE INTERNAL "")
