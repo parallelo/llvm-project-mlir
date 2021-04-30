@@ -29,6 +29,23 @@ endif()
 #message(STATUS "git cmd: ${git_cmd}")
 #execute_process(COMMAND ${git_cmd} ${git_arg})
 
+# Python's diff_match_patch package is currently required to
+# patch external/llvm-project
+execute_process(
+  COMMAND pip show diff_match_patch
+  RESULT_VARIABLE EXIT_CODE
+  OUTPUT_QUIET
+)
+
+if (NOT ${EXIT_CODE} EQUAL 0)
+  message(
+    FATAL_ERROR
+      "The \"diff_match_patch\" python package is not installed. \
+       The following command can be used to install it: \
+       \"pip install diff_match_patch\""
+  )
+endif()
+
 # Patch 'external/llvm-project/mlir' with mods in 'mlir-patch'
 # FIXME: multi-line cmd + args...
 #set(PY_CMD "python utils/src-tree-patcher/patcher.py ")
