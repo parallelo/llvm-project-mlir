@@ -28,7 +28,8 @@ set(BUILD_SHARED_LIBS ON CACHE INTERNAL "")
 set(LLVM_BUILD_LLVM_DYLIB ON CACHE INTERNAL "")
 set(MLIR_ROCM_RUNNER_ENABLED 1 CACHE INTERNAL "")
 set(MLIR_MIOPEN_DRIVER_ENABLED 1 CACHE INTERNAL "")
-set(MLIR_ENABLE_SQLITE 1 CACHE INTERNAL "")
+set(MLIR_MIOPEN_DRIVER_E2E_TEST_ENABLED 1 CACHE INTERNAL "")
+#set(MLIR_ENABLE_SQLITE 1 CACHE INTERNAL "")
 set(LLVM_INSTALL_UTILS ON CACHE INTERNAL "")
 
 # Library type and linkage settings
@@ -39,9 +40,20 @@ set(LLVM_INSTALL_UTILS ON CACHE INTERNAL "")
 set(MLIR_TABLEGEN_EXE mlir-tblgen)
 set(LLVM_PROJ_SRC "${CMAKE_SOURCE_DIR}/external/llvm-project")
 
-add_subdirectory("${LLVM_PROJ_SRC}/llvm" "external/llvm-project/llvm" EXCLUDE_FROM_ALL)
+# Configure ROCm support.
+if (NOT DEFINED ROCM_PATH)
+  if (NOT DEFINED ENV{ROCM_PATH})
+    set(ROCM_PATH "/opt/rocm" CACHE PATH "Path to which ROCm has been installed")
+  else()
+    set(ROCM_PATH $ENV{ROCM_PATH} CACHE PATH "Path to which ROCm has been installed")
+  endif()
+endif()
+message(STATUS "ROCM_PATH: ${ROCM_PATH}")
 
 # Cmake module paths
+list(APPEND CMAKE_MODULE_PATH
+  "${ROCM_PATH}/hip/cmake"
+)
 list(APPEND CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_BINARY_DIR}/lib/cmake/mlir"
 )
@@ -63,3 +75,5 @@ list(APPEND LLVM_INCLUDE_DIRS
 list(APPEND CMAKE_EXE_LINKER_FLAGS
   " -Wl,-rpath -Wl,${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project/llvm/lib"
 )
+
+add_subdirectory("${LLVM_PROJ_SRC}/llvm" "external/llvm-project/llvm" EXCLUDE_FROM_ALL)
