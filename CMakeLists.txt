@@ -74,7 +74,6 @@ execute_process(COMMAND python utils/src-tree-patcher/patcher.py --infile utils/
 
 # Set up the build for the MLIR git-submodule
 include(cmake/mlir.cmake)
-add_subdirectory(external)
 
 # Set up the build for the official MLIR 'standalone' example
 #add_subdirectory(mlir-standalone-example)
